@@ -19,7 +19,6 @@
 
     const a = 0;
 
-
     @foreach ($users as $user)
         let b = 1;
     @endforeach

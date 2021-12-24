@@ -1343,7 +1343,6 @@ describe('formatter', () => {
       '',
       '    const a = 0;',
       '',
-      '',
       '    @foreach ($users as $user)',
       '        let b = 1;',
       '    @endforeach',
@@ -1824,6 +1823,45 @@ describe('formatter', () => {
       `        @endforelse`,
       `    ];`,
       `</script>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
+
+  test('remove more than 1 consecutive empty lines', async () => {
+    const content = [
+      `<div>`,
+      ``,
+      ``,
+      `<div>`,
+      ``,
+      ``,
+      ``,
+      ``,
+      `@button([`,
+      `'class' => 'btn btn-primary p-btn-wide',`,
+      `'text' => 'Save',`,
+      `])`,
+      `</div>`,
+      ``,
+      ``,
+      ``,
+      `</div>`,
+    ].join('\n');
+
+    const expected = [
+      `<div>`,
+      ``,
+      `    <div>`,
+      ``,
+      `        @button([`,
+      `            'class' => 'btn btn-primary p-btn-wide',`,
+      `            'text' => 'Save',`,
+      `        ])`,
+      `    </div>`,
+      ``,
+      `</div>`,
       ``,
     ].join('\n');
 

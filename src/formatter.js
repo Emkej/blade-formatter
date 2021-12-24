@@ -54,6 +54,7 @@ export default class Formatter {
 
   formatContent(content) {
     return new Promise((resolve) => resolve(content))
+      .then((target) => this.removeLines(target))
       .then((target) => this.preserveRawPhpTags(target))
       .then((target) => util.formatAsPhp(target))
       .then((formattedAsPhp) => this.preserveBladeComment(formattedAsPhp))
@@ -256,6 +257,30 @@ export default class Formatter {
         return `${p1}class="${this.storeClass(p2)}"${p3}`;
       },
     );
+  }
+
+  async removeLines(content) {
+    const lines = content.split('\n');
+
+    return lines.map(function (line, index, arr) {
+      const trimmed = line.trim();
+
+      if (index === 0) {
+        return line;
+      }
+
+      if (trimmed !== '') {
+        return line;
+      }
+
+      const previous = arr[index - 1].trim();
+
+      if (trimmed !== previous) {
+        return line;
+      }
+    })
+    .filter((el) => el !== undefined)
+    .join('\n');
   }
 
   storeRawBlock(value) {
